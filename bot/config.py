@@ -2,7 +2,12 @@ import os
 
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 GROQ_API_KEY = os.environ["GROQ_API_KEY"]
-GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120bgit")
+GROQ_MODELS = [
+    m.strip()
+    for m in os.getenv("GROQ_MODELS", os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")).split(",")
+    if m.strip()
+]
+GROQ_MODEL = GROQ_MODELS[0]
 DB_PATH = os.getenv("DB_PATH", "/data/archive.db")
 EMBED_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 HISTORY_LIMIT = 6
