@@ -7,7 +7,8 @@ from bot.config import TOP_K
 from bot.db import _norm as norm
 from bot.ingest import embed_texts
 
-MIN_SCORE_BY_LEVEL = {0: 0.15, 1: 0.20, 2: 0.30, 3: 0.30}
+
+MIN_SCORE_BY_LEVEL = {0: 0.15, 1: 0.20, 2: 0.30, 3: 0.15}
 
 
 @dataclass
