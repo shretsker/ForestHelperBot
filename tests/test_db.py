@@ -1,12 +1,6 @@
 import asyncio
-import os
-import tempfile
 
-os.environ.setdefault("TELEGRAM_BOT_TOKEN", "test")
-os.environ.setdefault("GROQ_API_KEY", "test")
-os.environ["DB_PATH"] = os.path.join(tempfile.mkdtemp(), "test.db")
-
-from bot import db  # noqa: E402
+from bot import db
 
 
 def run(coro):
