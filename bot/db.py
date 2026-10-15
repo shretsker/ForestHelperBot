@@ -143,3 +143,15 @@ async def clear_history(tg_id: int) -> None:
     async with aiosqlite.connect(DB_PATH) as db:
         await db.execute("DELETE FROM messages WHERE tg_id=?", (tg_id,))
         await db.commit()
+
+
+async def get_known_places():
+    """Gloves and forest parts that exist in active documents."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        cur = await db.execute(
+            "SELECT DISTINCT glove, forest_part FROM documents WHERE active=1"
+        )
+        rows = await cur.fetchall()
+    gloves = sorted({g for g, _ in rows if g})
+    parts = sorted({p for _, p in rows if p})
+    return gloves, parts
