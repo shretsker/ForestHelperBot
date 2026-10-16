@@ -37,3 +37,13 @@ def test_history_limit_and_clear():
     assert [h["content"] for h in hist] == [f"m{i}" for i in range(4, 10)]
     run(db.clear_history(7))
     assert run(db.get_history(7, 6)) == []
+
+
+def test_known_topics_only_from_active_documents():
+    run(db.init_db())
+    a = run(db.add_document("A", "a.txt", "Під дубом", None, "внески",
+                            1, "Кабан", [("x", b"\x00" * 8)]))
+    run(db.add_document("B", "b.txt", "Під дубом", None, "пожежі",
+                        1, "Кабан", [("y", b"\x00" * 8)]))
+    run(db.deactivate_document(a))
+    assert run(db.get_known_topics()) == ["пожежі"]

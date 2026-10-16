@@ -155,3 +155,13 @@ async def get_known_places():
     gloves = sorted({g for g, _ in rows if g})
     parts = sorted({p for _, p in rows if p})
     return gloves, parts
+
+
+async def get_known_topics():
+    """Topics of active documents."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        cur = await db.execute(
+            "SELECT DISTINCT topic FROM documents WHERE active=1 AND topic IS NOT NULL"
+        )
+        rows = await cur.fetchall()
+    return sorted({r[0] for r in rows if r[0]})
